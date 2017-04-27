@@ -5,6 +5,7 @@ class CollectionsController < ApplicationController
   # GET /collections.json
   def index
     @collections = Collection.all
+    @halls = Hall.all
   end
 
   # GET /collections/1
@@ -31,6 +32,7 @@ class CollectionsController < ApplicationController
     params[:collection][:halls].each{|a| @halls << Hall.find(a) if a.present?}
     respond_to do |format|
       if @collection.save
+        @halls.each{|a| a.collections << @collection}
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
         format.json { render :show, status: :created, location: @collection }
       else
@@ -47,6 +49,7 @@ class CollectionsController < ApplicationController
     params[:collection][:halls].each{|a| @halls << Hall.find(a) if a.present?}
     respond_to do |format|
       if @collection.update(collection_params)
+        @halls.each{|a| a.collections << @collection}
         format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
         format.json { render :show, status: :ok, location: @collection }
       else
