@@ -11,10 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170409205031) do
+ActiveRecord::Schema.define(version: 20170427190018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "collections", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "collections_halls", id: false, force: :cascade do |t|
+    t.integer "collection_id", null: false
+    t.integer "hall_id",       null: false
+  end
+
+  add_index "collections_halls", ["collection_id", "hall_id"], name: "index_collections_halls_on_collection_id_and_hall_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -31,6 +47,30 @@ ActiveRecord::Schema.define(version: 20170409205031) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "exhibits", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "insurance_cost"
+    t.integer  "age_of_creation"
+    t.integer  "collection_id"
+    t.integer  "height"
+    t.integer  "width"
+    t.integer  "length"
+    t.boolean  "temp_control"
+    t.boolean  "humidity_control"
+    t.boolean  "people_security"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "exhibits", ["collection_id"], name: "index_exhibits_on_collection_id", using: :btree
+
+  create_table "halls", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "role_users", force: :cascade do |t|
     t.integer  "role_id",    null: false
@@ -95,6 +135,7 @@ ActiveRecord::Schema.define(version: 20170409205031) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "exhibits", "collections"
   add_foreign_key "role_users", "roles"
   add_foreign_key "role_users", "users"
 end

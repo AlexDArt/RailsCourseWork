@@ -1,0 +1,41 @@
+%h1 Listing exhibits
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Insurance cost
+      %th Age of creation
+      %th Collection
+      %th Height
+      %th Width
+      %th Length
+      %th Temp control
+      %th Humidity control
+      %th People security
+      %th
+      %th
+      %th
+
+  %tbody
+    - @exhibits.each do |exhibit|
+      %tr
+        %td= exhibit.name
+        %td= exhibit.description
+        %td= exhibit.insurance_cost
+        %td= exhibit.age_of_creation
+        %td= exhibit.collection
+        %td= exhibit.height
+        %td= exhibit.width
+        %td= exhibit.length
+        %td= exhibit.temp_control
+        %td= exhibit.humidity_control
+        %td= exhibit.people_security
+        %td= link_to 'Show', exhibit
+        %td= link_to 'Edit', edit_exhibit_path(exhibit)
+        %td= link_to 'Destroy', exhibit, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Exhibit', new_exhibit_path

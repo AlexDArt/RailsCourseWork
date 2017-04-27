@@ -1,0 +1,1 @@
+json.extract! @exhibit, :id, :name, :description, :insurance_cost, :age_of_creation, :collection_id, :height, :width, :length, :temp_control, :humidity_control, :people_security, :created_at, :updated_at
